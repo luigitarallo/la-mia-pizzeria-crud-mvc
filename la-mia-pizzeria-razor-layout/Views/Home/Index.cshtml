@@ -1,19 +1,26 @@
-﻿﻿@{
+﻿@using la_mia_pizzeria_razor_layout.Data
+﻿@{
+    using la_mia_pizzeria_razor_layout.Data.PizzaContext db = new PizzaContext();
     ViewData["Title"] = "La pizzeria di Giggino";
 
-    List<Pizza> pizzas = new List<Pizza>();
-    Pizza margherita = new Pizza("Margherita", "Pomodoro, fiordilatte e basilico", "~/img/margherita.jpg", 5.5m);
-    pizzas.Add(margherita);
-    Pizza marinara = new Pizza("Marinara", "Pomodoro, origano ed aglio", "~/img/marinara.jpg", 4.5m);
-    pizzas.Add(marinara);
-    Pizza diavola = new Pizza("Diavola", "Pomodoro, fiordilatte e salame piccante", "~/img/diavola.jpg", 6m);
-    pizzas.Add(diavola);
-    Pizza carrettiera = new Pizza("Carrettiera", "Friarielli, fiordilatte e salsiccia", "~/img/salsiccia-friarielli.jpg", 6.5m);
-    pizzas.Add(carrettiera);
-    Pizza pizzaFritta = new Pizza("Pizza fritta", "Pizza ripiena di cicoli, ricotta, mozzarella e pomodoro, fritta in olio evo", "~/img/fritta.jpg", 6m);
-    pizzas.Add(pizzaFritta);
-    Pizza bufalina = new Pizza("Bufalina", "Margherita con mozzarella di bufala dop", "~/img/bufalina.jpg", 6.5m);
-    pizzas.Add(bufalina);
+    if (!db.Pizzas.Any())
+    {
+        List<Pizza> pizzas = new List<Pizza>
+        {
+            new Pizza("Margherita", "Pomodoro, fiordilatte e basilico", "~/img/margherita.jpg", 5.5m),
+            new Pizza("Marinara", "Pomodoro, origano ed aglio", "~/img/marinara.jpg", 4.5m),
+            new Pizza("Diavola", "Pomodoro, fiordilatte e salame piccante", "~/img/diavola.jpg", 6m),
+            new Pizza("Carrettiera", "Friarielli, fiordilatte e salsiccia", "~/img/salsiccia-friarielli.jpg", 6.5m),
+            new Pizza("Pizza fritta", "Pizza ripiena di cicoli, ricotta, mozzarella e pomodoro, fritta in olio evo", "~/img/fritta.jpg", 6m),
+            new Pizza("Bufalina", "Margherita con mozzarella di bufala dop", "~/img/bufalina.jpg", 6.5m),
+        };
+        foreach(Pizza pizza in pizzas)
+        {
+            db.Add(pizza);
+        }
+        db.SaveChanges();
+    }
+    
 }
 <div class="wrapper mt-5">
     <div class="container">
@@ -29,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (Pizza pizza in pizzas)
+                   @*  @foreach (Pizza pizza in pizzas)
                     {
                         <tr>
                             <td class="text-center align-content-center">@pizza.Name</td>
@@ -37,7 +44,7 @@
                             <td class="text-center align-content-center">€ @pizza.Price</td>
                             <td class="text-center align-content-center">@pizza.Description</td>
                         </tr>
-                    }
+                    } *@
                 </tbody>
             </table>
         </div>
