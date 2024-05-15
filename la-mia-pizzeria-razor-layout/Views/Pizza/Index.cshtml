@@ -36,7 +36,9 @@
                                 <td class="text-center align-content-center">€ @pizza.Price</td>
                                 <td class="text-center align-content-center">@pizza.Description</td>
                                 <td class="text-center align-content-center">
-                                    <a href="@Url.Action("ShowPizza", "Pizza", new { id = pizza.PizzaId })">Show Details</a>
+                                    <button type="button" class="btn btn-danger">
+                                        <a href="@Url.Action("ShowPizza", "Pizza", new { id = pizza.PizzaId })">Show Details</a>
+                                    </button>
                                 </td>
                             </tr>
                         }

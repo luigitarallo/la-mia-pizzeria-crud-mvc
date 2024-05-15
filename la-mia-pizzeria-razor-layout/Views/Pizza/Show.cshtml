@@ -4,19 +4,24 @@
     ViewData["Title"] = "Dettagli Pizza";
 }
 
-<div class="container">
-    <h1 class="text-center">@Model.Name</h1>
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <img src="@Url.Content(Model.Photo)" class="card-img-top" alt="@Model.Name">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.Name</h5>
-                    <p class="card-text">Description: @Model.Description</p>
-                    <p class="card-text">Price: € @Model.Price</p>
+<div class="show-pizza-wrapper">
+    <div class="container pizza-card-container">
+        <div class="row">
+            <div class="col">
+                <div class="card pizza-card">
+                    <div class="card-image">
+                        <img src="@Url.Content(Model.Photo)" class="card-img-top" alt="@Model.Name">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fs-1 text-center text-danger">@Model.Name</h5>
+                        <p class="card-text text-center">Description: @Model.Description</p>
+                        <p class="card-text text-center"><small class="text-muted">Price: € @Model.Price</small></p>
+                        <div class="d-flex justify-content-center">
+                            <a href="@Url.Action("Index", "Pizza")" class="btn btn-danger">Back to all Pizzas</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
