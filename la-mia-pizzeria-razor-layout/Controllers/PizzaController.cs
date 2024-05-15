@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using la_mia_pizzeria_razor_layout.Models;
 using la_mia_pizzeria_razor_layout.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_razor_layout.Controllers
 {
@@ -31,6 +32,17 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
             List<Pizza> pizzas = db.Pizzas.ToList();
             return View("Index", pizzas);
+        }
+
+        public IActionResult ShowPizza(int id)
+        {
+            using PizzaContext db = new PizzaContext();
+            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
+            if (pizza == null)
+            {
+                return NotFound();
+            }
+            return View("Show", pizza);
         }
     }
 }
