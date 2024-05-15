@@ -16,6 +16,7 @@
                         <th scope="col" class="text-center bg-danger">Image</th>
                         <th scope="col" class="text-center bg-danger">Price</th>
                         <th scope="col" class="text-center bg-danger">Description</th>
+                        <th scope="col" class="text-center bg-danger">Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,12 +35,14 @@
                                 <td class="text-center align-content-center"><img src="@Url.Content(pizza.Photo)" class="img-thumbnail small-image" alt="@pizza.Name"></td>
                                 <td class="text-center align-content-center">€ @pizza.Price</td>
                                 <td class="text-center align-content-center">@pizza.Description</td>
+                                <td class="text-center align-content-center">Show Details</td>
                             </tr>
                         }
                     }
-                   
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
