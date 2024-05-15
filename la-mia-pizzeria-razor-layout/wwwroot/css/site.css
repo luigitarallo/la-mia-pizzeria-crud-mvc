@@ -1,0 +1,48 @@
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #212529;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #dc3545;
+}
+
+.navbar {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+}
+
+.wrapper {
+    background-image: url('/img/immagine-pizzeria.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.table{
+    margin-bottom: 5rem;
+}
+
+.small-image {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+
+h1 {
+    color: white;
+    text-shadow: 5px 5px 8px #000000;
+}
+
+footer {
+    background-color: #212529;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
