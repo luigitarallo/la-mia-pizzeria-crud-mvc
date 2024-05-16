@@ -10,26 +10,6 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
         public IActionResult Index()
         {
-            using PizzaContext db = new PizzaContext();
-
-            if (!db.Pizzas.Any())
-            {
-                List<Pizza> pizzasForDb = new List<Pizza>
-                {
-                    new Pizza("Margherita", "Pomodoro, fiordilatte e basilico", "~/img/margherita.jpg", 5.5m),
-                    new Pizza("Marinara", "Pomodoro, origano ed aglio", "~/img/marinara.jpg", 4.5m),
-                    new Pizza("Diavola", "Pomodoro, fiordilatte e salame piccante", "~/img/diavola.jpg", 6m),
-                    new Pizza("Carrettiera", "Friarielli, fiordilatte e salsiccia", "~/img/salsiccia-friarielli.jpg", 6.5m),
-                    new Pizza("Pizza fritta", "Pizza ripiena di cicoli, ricotta, mozzarella e pomodoro, fritta in olio evo", "~/img/fritta.jpg", 6m),
-                    new Pizza("Bufalina", "Margherita con mozzarella di bufala dop", "~/img/bufalina.jpg", 6.5m),
-                };
-                foreach (Pizza pizza in pizzasForDb)
-                {
-                    db.Add(pizza);
-                }
-                db.SaveChanges();
-            }
-
             return View(PizzaManager.GetAllPizzas());
         }
 
@@ -41,5 +21,24 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             else
                 return View("errore");
         }
+
+        [HttpGet]
+        public IActionResult Create() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Pizza pizza)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Create", pizza);
+            }
+
+            PizzaManager.InsertPizza(pizza);
+            return RedirectToAction("Index");
+        }
+
     }
 }
