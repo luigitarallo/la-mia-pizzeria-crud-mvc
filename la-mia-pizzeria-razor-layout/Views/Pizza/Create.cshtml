@@ -1,0 +1,35 @@
+﻿@model Pizza
+<div class="show-pizza-wrapper">
+    <div class="container mt-5 vh-100">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="@Url.Action("Index", "Pizza")" class="btn btn-danger">Back to all Pizzas</a>
+        </div>
+        <div class="card p-4">
+            <form asp-controller="Pizza" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label for="name" class="form-label text-danger">Name:</label>
+                    <input asp-for="Name" class="form-control" id="name" aria-describedby="name">
+                    <span asp-validation-for="Name" class="text-secondary"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Description" class="form-label text-danger">Description:</label>
+                    <input asp-for="Description" class="form-control" id="Description" aria-describedby="description">
+                    <span asp-validation-for="Description" class="text-secondary"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Photo" class="form-label text-danger">Photo:</label>
+                    <input asp-for="Photo" class="form-control" id="Photo" aria-describedby="photo">
+                    <span asp-validation-for="Photo" class="text-secondary"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label text-danger">Price:</label>
+                    <input asp-for="Price" class="form-control" id="Price" aria-describedby="price">
+                    <span asp-validation-for="Price" class="text-secondary"></span>
+                </div>
+                <button type="submit" class="btn btn-secondary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
