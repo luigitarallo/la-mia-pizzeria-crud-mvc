@@ -30,19 +30,16 @@ namespace la_mia_pizzeria_razor_layout.Controllers
                 db.SaveChanges();
             }
 
-            List<Pizza> pizzas = db.Pizzas.ToList();
-            return View("Index", pizzas);
+            return View(PizzaManager.GetAllPizzas());
         }
 
         public IActionResult ShowPizza(int id)
         {
-            using PizzaContext db = new PizzaContext();
-            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
-            if (pizza == null)
-            {
-                return NotFound();
-            }
-            return View("Show", pizza);
+            Pizza pizza = PizzaManager.GetPizzaById(id);
+            if (pizza != null)
+                return View("Show", pizza);
+            else
+                return View("errore");
         }
     }
 }
