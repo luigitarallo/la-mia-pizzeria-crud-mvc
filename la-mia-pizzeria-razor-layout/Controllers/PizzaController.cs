@@ -29,6 +29,7 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Pizza pizza)
         {
             if (!ModelState.IsValid)
