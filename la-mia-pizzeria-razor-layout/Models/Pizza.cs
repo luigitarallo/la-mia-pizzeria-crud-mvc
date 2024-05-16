@@ -10,11 +10,11 @@ namespace la_mia_pizzeria_razor_layout.Models
     {
         [Key] public int PizzaId { get; set; }
         [Required(ErrorMessage ="Pizza name is mandatory")]
-        [StringLength(25, ErrorMessage = "Pizza name has to be under 25 letters")]
+        [StringLength(25, ErrorMessage = "Pizza name has to be max 25 letters")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Pizza description is mandatory")]
-
+        [MinWords(5, ErrorMessage = "Description must contain at least 5 words.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage ="Pizza photo is mandatory")]
