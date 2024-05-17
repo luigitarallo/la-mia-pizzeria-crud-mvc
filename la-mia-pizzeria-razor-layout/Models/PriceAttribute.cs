@@ -10,13 +10,15 @@ public class PriceAttribute : ValidationAttribute
     }
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        decimal fieldValue = (decimal)value;
-
-        if (fieldValue == null || fieldValue < 0)
+        if (value == null)
         {
-            return new ValidationResult($"Insert a valid price");
+            return new ValidationResult("Insert a valid price");
         }
-
+        decimal field = (decimal)value;
+        if (field <0 )
+        {
+            return new ValidationResult("Insert a price > 0");
+        }
         return ValidationResult.Success;
     }
 }
