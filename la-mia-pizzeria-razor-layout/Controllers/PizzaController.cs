@@ -30,15 +30,54 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza)
+        public IActionResult Create(Pizza data)
         {
             if (!ModelState.IsValid)
             {
-                return View("Create", pizza);
+                return View("Create", data);
             }
 
-            PizzaManager.InsertPizza(pizza);
+            PizzaManager.InsertPizza(data);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            
+            Pizza pizzaToEdit = PizzaManager.GetPizzaById(id);
+
+            if (pizzaToEdit == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return View(pizzaToEdit);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Pizza data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Update", data);
+            }
+
+            bool result = PizzaManager.UpdatePizza(id, pizzaToEdit =>
+            {
+                pizzaToEdit.Name = data.Name;
+                pizzaToEdit.Description = data.Description;
+                pizzaToEdit.Photo = data.Photo;
+                pizzaToEdit.Price = data.Price;
+            });
+
+            if (result == true)
+                return RedirectToAction("Index");
+            else
+                return NotFound(); 
         }
 
     }
