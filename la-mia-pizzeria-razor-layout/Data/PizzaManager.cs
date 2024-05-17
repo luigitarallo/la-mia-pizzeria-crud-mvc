@@ -65,6 +65,21 @@ namespace la_mia_pizzeria_razor_layout.Data
             return true;
         }
 
+        public static bool DeletePizza(int id)
+        {
+            using PizzaContext db = new PizzaContext();
+
+            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
+
+            if (pizza == null)
+                return false;
+
+            db.Pizzas.Remove(pizza);
+            db.SaveChanges();
+
+            return true;
+        }
+
         public static void Seed()
         {
             if (CountAllPizzas() == 0)

@@ -80,5 +80,14 @@ namespace la_mia_pizzeria_razor_layout.Controllers
                 return NotFound(); 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (PizzaManager.DeletePizza(id))
+                return RedirectToAction("Index");
+            else
+                return NotFound();
+        }
     }
 }

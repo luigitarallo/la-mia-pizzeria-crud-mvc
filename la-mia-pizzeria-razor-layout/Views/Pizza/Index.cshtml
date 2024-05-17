@@ -43,9 +43,17 @@
                                     </button>
                                 </td>
                                 <td class="text-center align-content-center">
-                                    <button type="button" class="btn btn-danger">
+                                    <button type="button" class="btn btn-primary">
                                         <a href="@Url.Action("Update", "Pizza", new { id = pizza.PizzaId })">Edit Pizza</a>
                                     </button>
+                                </td>
+                                <td class="text-center align-content-center">
+                                    <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.PizzaId" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="button" class="btn btn-success text-dark">
+                                            Delete Pizza
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         }
