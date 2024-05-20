@@ -23,6 +23,9 @@ namespace la_mia_pizzeria_razor_layout.Models
         [Price(ErrorMessage = "Invalid price format or value.")]
         public decimal? Price { get; set; }
 
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
+
         public Pizza() { }
 
         public Pizza(string name, string description, string photo, decimal price)

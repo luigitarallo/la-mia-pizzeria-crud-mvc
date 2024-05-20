@@ -25,19 +25,22 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         [HttpGet]
         public IActionResult Create() 
         {
-            return View();
+            PizzaFormModel model = new PizzaFormModel();
+            model.Pizza = new Pizza();
+            model.Categories = PizzaManager.GetCategories();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza data)
+        public IActionResult Create(PizzaFormModel data)
         {
             if (!ModelState.IsValid)
             {
                 return View("Create", data);
             }
 
-            PizzaManager.InsertPizza(data);
+            PizzaManager.InsertPizza(data.Pizza);
             return RedirectToAction("Index");
         }
 

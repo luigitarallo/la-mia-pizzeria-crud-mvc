@@ -22,6 +22,12 @@ namespace la_mia_pizzeria_razor_layout.Data
             return pizza;
         }
 
+        public static List<Category> GetCategories()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Categories.ToList();
+        }
+
         public static int CountAllPizzas()
         {
             using PizzaContext db = new PizzaContext();
