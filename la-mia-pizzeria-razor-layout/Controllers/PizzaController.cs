@@ -39,7 +39,6 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             {
                 return View("Create", data);
             }
-
             PizzaManager.InsertPizza(data.Pizza);
             return RedirectToAction("Index");
         }
@@ -47,34 +46,37 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            
             Pizza pizzaToEdit = PizzaManager.GetPizzaById(id);
-
             if (pizzaToEdit == null)
             {
                 return NotFound();
             }
             else
             {
-                return View(pizzaToEdit);
+                PizzaFormModel model = new PizzaFormModel(pizzaToEdit, PizzaManager.GetCategories());
+                return View(model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizza data)
+        public IActionResult Update(int id, PizzaFormModel data)
         {
             if (!ModelState.IsValid)
             {
+                data.Pizza.PizzaId = id; //Ripasso l'id di data per evitare che al salvatagglio vada alla pagina con ID "0"
+                List<Category> categories = PizzaManager.GetCategories();
+                data.Categories = categories;
                 return View("Update", data);
             }
 
             bool result = PizzaManager.UpdatePizza(id, pizzaToEdit =>
             {
-                pizzaToEdit.Name = data.Name;
-                pizzaToEdit.Description = data.Description;
-                pizzaToEdit.Photo = data.Photo;
-                pizzaToEdit.Price = data.Price;
+                pizzaToEdit.Name = data.Pizza.Name;
+                pizzaToEdit.Description = data.Pizza.Description;
+                pizzaToEdit.Photo = data.Pizza.Photo;
+                pizzaToEdit.Price = data.Pizza.Price;
+                pizzaToEdit.CategoryId = data.Pizza.CategoryId;
             });
 
             if (result == true)

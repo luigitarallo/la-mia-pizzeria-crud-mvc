@@ -1,4 +1,5 @@
 ﻿using la_mia_pizzeria_razor_layout.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_razor_layout.Data
@@ -11,15 +12,12 @@ namespace la_mia_pizzeria_razor_layout.Data
             return db.Pizzas.ToList();
         }
 
-        public static Pizza GetPizzaById(int id)
+        public static Pizza GetPizzaById(int id, bool includeReferences = true)
         {
             using PizzaContext db = new PizzaContext();
-            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
-            if (pizza == null)
-            {
-                return null;
-            }
-            return pizza;
+            if (includeReferences)
+                return db.Pizzas.Where(p => p.PizzaId==id).Include(p => p.Category).FirstOrDefault();
+            return db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
         }
 
         public static List<Category> GetCategories()
@@ -53,7 +51,7 @@ namespace la_mia_pizzeria_razor_layout.Data
             return true;
         }
 
-        public static bool UpdatePizza(int id, string name, string description, string photo, decimal price)
+        public static bool UpdatePizza(int id, string name, string description, string photo, decimal price, int? categoryId)
         {
             using PizzaContext db = new PizzaContext();
             Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
@@ -65,6 +63,7 @@ namespace la_mia_pizzeria_razor_layout.Data
             pizza.Description = description;
             pizza.Photo = photo;
             pizza.Price = price;
+            pizza.CategoryId = categoryId;
 
             db.SaveChanges();
 

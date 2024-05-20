@@ -44,5 +44,13 @@ namespace la_mia_pizzeria_razor_layout.Models
             Photo = photo;
             Price = price;
         }
+
+        public string GetDisplayedCategory()
+        {
+            if (Category == null)
+                return "No category selected";
+            return Category.Name;
+
+        }
     }
 }
