@@ -4,7 +4,7 @@
     ViewData["Title"] = "Dettagli Pizza";
 }
 
-<div class="show-pizza-wrapper vh-100">
+<div class="show-pizza-wrapper vh-80">
     <div class="container pizza-card-container ">
         <div class="row">
             <div class="col">
@@ -13,10 +13,9 @@
                         <img src="@Url.Content(Model.Photo)" class="card-img-top" alt="@Model.Name">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title fs-1 text-center text-danger">@Model.Name</h5>
+                        <h5 class="card-title fs-1 text-center text-danger">@Model.Name - <span class="badge bg-dark">@($"{Model.GetDisplayedCategory()}")</span></h5>
                         <p class="card-text text-center">Description: @Model.Description</p>
                         <p class="card-text text-center"><small class="text-muted">Price: € @Model.Price</small></p>
-                        <p class="col">Category: @($"{Model.GetDisplayedCategory()}")</p>
                         <div class="d-flex justify-content-center">
                             <a href="@Url.Action("Index", "Pizza")" class="btn btn-danger">Back to all Pizzas</a>
                         </div>
