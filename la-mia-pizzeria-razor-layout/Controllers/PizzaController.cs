@@ -64,7 +64,7 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         {
             if (!ModelState.IsValid)
             {
-                data.Pizza.PizzaId = id; //Ripasso l'id di data per evitare che al salvatagglio vada alla pagina con ID "0"
+                data.Pizza.PizzaId = id; //Ripasso l'id di data per evitare che al salvataggio vada alla pagina con ID "0"
                 List<Category> categories = PizzaManager.GetCategories();
                 data.Categories = categories;
                 return View("Update", data);
