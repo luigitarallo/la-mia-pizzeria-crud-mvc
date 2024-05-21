@@ -8,6 +8,5 @@ namespace la_mia_pizzeria_razor_layout.Models
         public string Name { get; set; }
         public List<Pizza> Pizzas { get; set; }
         public Ingredient() { }
-
     }
 }

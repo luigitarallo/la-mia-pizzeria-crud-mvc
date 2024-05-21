@@ -21,7 +21,7 @@ namespace la_mia_pizzeria_razor_layout.Models
         public string Photo { get; set; }
 
         [Price(ErrorMessage = "Invalid price format or value.")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
@@ -30,7 +30,7 @@ namespace la_mia_pizzeria_razor_layout.Models
 
         public Pizza() { }
 
-        public Pizza(string name, string description, string photo, decimal price)
+        public Pizza(string name, string description, string photo, decimal price) : this()
         {
             this.Name = name;
             this.Description = description;
@@ -38,14 +38,14 @@ namespace la_mia_pizzeria_razor_layout.Models
             this.Price = price;
         }
 
-        public Pizza(int pizzaId, string name, string description, string photo, decimal price)
-        {
-            PizzaId = pizzaId;
-            Name = name;
-            Description = description;
-            Photo = photo;
-            Price = price;
-        }
+        //public Pizza(int pizzaId, string name, string description, string photo, decimal price)
+        //{
+        //    PizzaId = pizzaId;
+        //    Name = name;
+        //    Description = description;
+        //    Photo = photo;
+        //    Price = price;
+        //}
 
         public string GetDisplayedCategory()
         {

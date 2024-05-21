@@ -6,35 +6,53 @@ namespace la_mia_pizzeria_razor_layout.Data
 {
     public class PizzaManager
     {
-        public static List<Pizza> GetAllPizzas()
-        {
-            using PizzaContext db = new PizzaContext();
-            return db.Pizzas.ToList();
-        }
-
-        public static Pizza GetPizzaById(int id, bool includeReferences = true)
-        {
-            using PizzaContext db = new PizzaContext();
-            if (includeReferences)
-                return db.Pizzas.Where(p => p.PizzaId==id).Include(p => p.Category).FirstOrDefault();
-            return db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
-        }
-
-        public static List<Category> GetCategories()
-        {
-            using PizzaContext db = new PizzaContext();
-            return db.Categories.ToList();
-        }
-
         public static int CountAllPizzas()
         {
             using PizzaContext db = new PizzaContext();
             return db.Pizzas.Count();
         }
-
-        public static void InsertPizza(Pizza pizza)
+        public static List<Pizza> GetAllPizzas()
         {
             using PizzaContext db = new PizzaContext();
+            return db.Pizzas.ToList();
+        }
+        public static List<Category> GetCategories()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Categories.ToList();
+        }
+        public static List<Ingredient> GetAllIngredients()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Ingredients.ToList();
+        }
+        public static Pizza GetPizzaById(int id, bool includeReferences = true)
+        {
+            using PizzaContext db = new PizzaContext();
+            if (includeReferences)
+                return db.Pizzas
+                    .Where(p => p.PizzaId == id)
+                    .Include(p => p.Category)
+                    .Include(p => p.Ingredients)
+                    .FirstOrDefault();
+            return db.Pizzas
+                .FirstOrDefault(p => p.PizzaId == id);
+        }
+        public static void InsertPizza(Pizza pizza, List<string> SelectedIngredients = null)
+        {
+            using PizzaContext db = new PizzaContext();
+            if(SelectedIngredients != null)
+            {
+                pizza.Ingredients = new List<Ingredient>();
+
+                foreach (var ingredientId in SelectedIngredients)
+                {
+                    int id = int.Parse(ingredientId);
+                    var ingredient = db.Ingredients
+                        .FirstOrDefault(i=>i.IngredientId == id);
+                    pizza.Ingredients.Add(ingredient);
+                }
+            }
             db.Pizzas.Add(pizza);
             db.SaveChanges();
         }
@@ -42,7 +60,8 @@ namespace la_mia_pizzeria_razor_layout.Data
         public static bool UpdatePizza(int id, Action<Pizza> edit)
         {
             using PizzaContext db = new PizzaContext();
-            Pizza pizza = db.Pizzas.FirstOrDefault(p=>p.PizzaId ==id);
+            Pizza pizza = db.Pizzas
+                .FirstOrDefault(p=>p.PizzaId ==id);
 
             if (pizza == null)
                 return false;
@@ -51,10 +70,13 @@ namespace la_mia_pizzeria_razor_layout.Data
             return true;
         }
 
-        public static bool UpdatePizza(int id, string name, string description, string photo, decimal price, int? categoryId)
+        public static bool UpdatePizza(int id, string name, string description, string photo, decimal price, int? categoryId, List<string> ingredients)
         {
             using PizzaContext db = new PizzaContext();
-            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
+            Pizza pizza = db.Pizzas
+                .Where(p => p.PizzaId == id)
+                .Include(p => p.Ingredients)
+                .FirstOrDefault();
 
             if (pizza == null)
                 return false;
@@ -65,8 +87,17 @@ namespace la_mia_pizzeria_razor_layout.Data
             pizza.Price = price;
             pizza.CategoryId = categoryId;
 
+            pizza.Ingredients.Clear();
+            if (ingredients != null)
+            {
+                foreach (var ingredient in ingredients)
+                {
+                    int ingredientId = int.Parse(ingredient);
+                    var ingredientFromDB = db.Ingredients.FirstOrDefault(i => i.IngredientId == ingredientId);
+                    pizza.Ingredients.Add(ingredientFromDB);
+                }
+            }
             db.SaveChanges();
-
             return true;
         }
 
@@ -74,7 +105,8 @@ namespace la_mia_pizzeria_razor_layout.Data
         {
             using PizzaContext db = new PizzaContext();
 
-            Pizza pizza = db.Pizzas.FirstOrDefault(p => p.PizzaId == id);
+            Pizza pizza = db.Pizzas
+                .FirstOrDefault(p => p.PizzaId == id);
 
             if (pizza == null)
                 return false;

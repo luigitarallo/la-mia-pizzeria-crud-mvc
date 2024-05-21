@@ -13,11 +13,11 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             return View(PizzaManager.GetAllPizzas());
         }
 
-        public IActionResult ShowPizza(int id)
+        public IActionResult Show(int id)
         {
-            Pizza pizza = PizzaManager.GetPizzaById(id);
+            Pizza pizza = PizzaManager.GetPizzaById(id, true);
             if (pizza != null)
-                return View("Show", pizza);
+                return View(pizza);
             else
                 return View("errore");
         }
@@ -28,6 +28,7 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             PizzaFormModel model = new PizzaFormModel();
             model.Pizza = new Pizza();
             model.Categories = PizzaManager.GetCategories();
+            model.CreateIngredients();
             return View(model);
         }
 
@@ -37,9 +38,12 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         {
             if (!ModelState.IsValid)
             {
+                data.Categories = PizzaManager.GetCategories();
+                data.CreateIngredients();
                 return View("Create", data);
             }
-            PizzaManager.InsertPizza(data.Pizza);
+       
+            PizzaManager.InsertPizza(data.Pizza, data.SelectedIngredients);
             return RedirectToAction("Index");
         }
 
@@ -54,8 +58,10 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             else
             {
                 PizzaFormModel model = new PizzaFormModel(pizzaToEdit, PizzaManager.GetCategories());
+                model.CreateIngredients();
                 return View(model);
             }
+          
         }
 
         [HttpPost]
@@ -64,25 +70,33 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         {
             if (!ModelState.IsValid)
             {
+                data.Categories=PizzaManager.GetCategories();
+                data.CreateIngredients();
                 data.Pizza.PizzaId = id; //Ripasso l'id di data per evitare che al salvataggio vada alla pagina con ID "0"
-                List<Category> categories = PizzaManager.GetCategories();
-                data.Categories = categories;
+                //List<Category> categories = PizzaManager.GetCategories();
+                //data.Categories = categories;
                 return View("Update", data);
             }
 
-            bool result = PizzaManager.UpdatePizza(id, pizzaToEdit =>
-            {
-                pizzaToEdit.Name = data.Pizza.Name;
-                pizzaToEdit.Description = data.Pizza.Description;
-                pizzaToEdit.Photo = data.Pizza.Photo;
-                pizzaToEdit.Price = data.Pizza.Price;
-                pizzaToEdit.CategoryId = data.Pizza.CategoryId;
-            });
-
-            if (result == true)
+            if (PizzaManager.UpdatePizza(id, data.Pizza.Name, data.Pizza.Description, data.Pizza.Photo, data.Pizza.Price, data.Pizza.CategoryId, data.SelectedIngredients))
                 return RedirectToAction("Index");
             else
-                return NotFound(); 
+                return NotFound();
+
+            //bool result = PizzaManager.UpdatePizza(id, pizzaToEdit =>
+            //{
+            //    pizzaToEdit.Name = data.Pizza.Name;
+            //    pizzaToEdit.Description = data.Pizza.Description;
+            //    pizzaToEdit.Photo = data.Pizza.Photo;
+            //    pizzaToEdit.Price = data.Pizza.Price;
+            //    pizzaToEdit.CategoryId = data.Pizza.CategoryId;
+            //    pizzaToEdit.Ingredients.Clear();
+            //});
+
+            //if (result == true)
+            //    return RedirectToAction("Index");
+            //else
+            //    return NotFound(); 
         }
 
         [HttpPost]
