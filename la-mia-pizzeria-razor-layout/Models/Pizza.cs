@@ -26,6 +26,8 @@ namespace la_mia_pizzeria_razor_layout.Models
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
+        public List<Ingredient>? Ingredients { get; set; }
+
         public Pizza() { }
 
         public Pizza(string name, string description, string photo, decimal price)
