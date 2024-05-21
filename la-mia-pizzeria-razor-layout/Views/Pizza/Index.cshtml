@@ -39,7 +39,7 @@
                                 <td class="text-center align-content-center">@pizza.Description</td>
                                 <td class="text-center align-content-center">
                                     <button type="button" class="btn btn-danger">
-                                        <a href="@Url.Action("ShowPizza", "Pizza", new { id = pizza.PizzaId })">Show Details</a>
+                                        <a href="@Url.Action("Show", "Pizza", new { id = pizza.PizzaId })">Show Details</a>
                                     </button>
                                 </td>
                                 <td class="text-center align-content-center">
@@ -50,7 +50,7 @@
                                 <td class="text-center align-content-center">
                                     <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.PizzaId" method="post">
                                         @Html.AntiForgeryToken()
-                                        <button type="button" class="btn btn-success text-dark">
+                                        <button type="submit" class="btn btn-success text-dark">
                                             Delete Pizza
                                         </button>
                                     </form>
@@ -60,8 +60,8 @@
                     }
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary mb-5">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-danger mb-5">
                     <a href="@Url.Action("Create","Pizza")">Add New Pizza</a>
                 </button>
             </div>
