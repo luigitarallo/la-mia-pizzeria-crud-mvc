@@ -2,17 +2,19 @@
 using la_mia_pizzeria_razor_layout.Models;
 using la_mia_pizzeria_razor_layout.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace la_mia_pizzeria_razor_layout.Controllers
 {
+    //[Authorize(Roles = "ADMIN,USER")]
     public class PizzaController : Controller
     {
-
+        
         public IActionResult Index()
         {
             return View(PizzaManager.GetAllPizzas());
         }
-
+        [Authorize(Roles = "ADMIN, USER")]
         public IActionResult Show(int id)
         {
             Pizza pizza = PizzaManager.GetPizzaById(id, true);
@@ -21,7 +23,8 @@ namespace la_mia_pizzeria_razor_layout.Controllers
             else
                 return View("errore");
         }
-
+        
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create() 
         {
@@ -34,6 +37,8 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Create(PizzaFormModel data)
         {
             if (!ModelState.IsValid)
@@ -48,6 +53,8 @@ namespace la_mia_pizzeria_razor_layout.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Update(int id)
         {
             Pizza pizzaToEdit = PizzaManager.GetPizzaById(id);
@@ -66,6 +73,8 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Update(int id, PizzaFormModel data)
         {
             if (!ModelState.IsValid)
@@ -101,6 +110,8 @@ namespace la_mia_pizzeria_razor_layout.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Delete(int id)
         {
             if (PizzaManager.DeletePizza(id))

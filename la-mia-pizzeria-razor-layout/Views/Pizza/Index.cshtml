@@ -17,8 +17,11 @@
                         <th scope="col" class="text-center bg-danger">Price</th>
                         <th scope="col" class="text-center bg-danger">Description</th>
                         <th scope="col" class="text-center bg-danger">Details</th>
+                        @if (User.IsInRole("ADMIN"))
+                        {
                         <th scope="col" class="text-center bg-danger">Edit</th>
                         <th scope="col" class="text-center bg-danger">Delete</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -39,11 +42,11 @@
                                 <td class="text-center align-content-center">@pizza.Description</td>
                                 <td class="text-center align-content-center">
                                     <button type="button" class="btn btn-danger">
-                                        <a href="@Url.Action("Show", "Pizza", new { id = pizza.PizzaId })"><i class="bi bi-arrow-up-right-square"></i>
-
-                            </a>
+                                        <a href="@Url.Action("Show", "Pizza", new { id = pizza.PizzaId })"><i class="bi bi-arrow-up-right-square"></i></a>
                                     </button>
                                 </td>
+                                @if (User.IsInRole("ADMIN"))
+                                {
                                 <td class="text-center align-content-center">
                                     <button type="button" class="btn btn-warning">
                                         <a href="@Url.Action("Update", "Pizza", new { id = pizza.PizzaId })"><i class="bi bi-pencil-square"></i></a>
@@ -57,17 +60,20 @@
                                         </button>
                                     </form>
                                 </td>
+                                }
                             </tr>
                         }
                     }
                 </tbody>
             </table>
+            @if (User.IsInRole("ADMIN"))
+            {
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-outline-danger mb-5">
                     <a href="@Url.Action("Create","Pizza")">Add New Pizza</a>
                 </button>
             </div>
-            
+            }
         </div>
     </div>
 </div>

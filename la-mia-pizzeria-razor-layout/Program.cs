@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using la_mia_pizzeria_razor_layout.Data;
 namespace la_mia_pizzeria_razor_layout
 {
     public class Program
@@ -5,6 +8,10 @@ namespace la_mia_pizzeria_razor_layout
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<PizzaContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<PizzaContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -23,13 +30,14 @@ namespace la_mia_pizzeria_razor_layout
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Pizza}/{action=Index}/{id?}");
-
+            app.MapRazorPages();
             app.Run();
         }
     }
